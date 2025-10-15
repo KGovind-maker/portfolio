@@ -24,26 +24,45 @@ const ProjectCard = styled(Card)(({ theme }) => ({
   },
 }));
 
-const ProjectImage = styled(CardMedia)(({ theme }) => ({
-  height: 200,
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  position: 'relative',
-  '&::before': {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(10, 25, 47, 0.8)',
-    opacity: 0,
-    transition: 'opacity 0.3s ease',
-  },
-  '&:hover::before': {
-    opacity: 1,
-  },
-}));
+const ProjectImage = ({ image, title }) => {
+  // If image is a React element (like our ProjectPlaceholder), render it directly
+  if (React.isValidElement(image)) {
+    return (
+      <Box sx={{ height: 200, position: 'relative' }}>
+        {image}
+      </Box>
+    );
+  }
+  
+  // Otherwise, treat it as an image URL
+  return (
+    <CardMedia
+      component="div"
+      sx={{
+        height: 200,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        position: 'relative',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(10, 25, 47, 0.8)',
+          opacity: 0,
+          transition: 'opacity 0.3s ease',
+        },
+        '&:hover::before': {
+          opacity: 1,
+        },
+      }}
+      image={image}
+      title={title}
+    />
+  );
+};
 
 const ProjectActions = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -111,7 +130,7 @@ const Projects = () => {
                 >
                   <ProjectCard>
                     <ProjectImage
-                      image={project.image || 'https://via.placeholder.com/400x200/0a192f/64ffda?text=Project+Image'}
+                      image={project.image}
                       title={project.title}
                     />
                     <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
@@ -185,6 +204,7 @@ const Projects = () => {
                             startIcon={<GitHub />}
                             href={project.github}
                             target="_blank"
+                            rel="noopener noreferrer"
                             size="small"
                           >
                             Code
@@ -195,6 +215,7 @@ const Projects = () => {
                             startIcon={<Launch />}
                             href={project.live}
                             target="_blank"
+                            rel="noopener noreferrer"
                             size="small"
                           >
                             Live Demo
@@ -222,8 +243,9 @@ const Projects = () => {
               variant="outlined"
               size="large"
               startIcon={<GitHub />}
-              href="https://github.com/kgovind-maker"
+              href="https://github.com/KGovind-maker"
               target="_blank"
+              rel="noopener noreferrer"
               sx={{
                 borderColor: 'primary.main',
                 color: 'primary.main',

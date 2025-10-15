@@ -3,6 +3,10 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
+## Contact form
+
+The contact form opens your mail client using a `mailto:` link with prefilled subject and body.
+
 
 In the project directory, you can run:
 

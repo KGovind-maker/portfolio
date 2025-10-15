@@ -9,6 +9,7 @@ import {
   Code,
   KeyboardArrowUp 
 } from '@mui/icons-material';
+import { openMailClient } from '../utils/obfuscation';
 
 const FooterSection = styled(Box)(({ theme }) => ({
   padding: theme.spacing(6, 0, 4),
@@ -72,16 +73,16 @@ const Footer = () => {
                 Always eager to learn new technologies and solve complex problems.
               </Typography>
               <Box sx={{ display: 'flex', gap: 1 }}>
-                <SocialButton href="https://github.com/kgovind-maker" target="_blank">
+                <SocialButton component="a" href="https://github.com/KGovind-maker" target="_blank" rel="noopener noreferrer">
                   <GitHub />
                 </SocialButton>
-                <SocialButton href="https://linkedin.com/in/govind-kumawat-9b62a1184" target="_blank">
+                <SocialButton component="a" href="https://www.linkedin.com/in/govind-kumawat-9b62a1184" target="_blank" rel="noopener noreferrer">
                   <LinkedIn />
                 </SocialButton>
-                <SocialButton href="https://twitter.com/govind_kumawat" target="_blank">
+                <SocialButton component="a" href="https://twitter.com/govind_kumawat" target="_blank" rel="noopener noreferrer">
                   <Twitter />
                 </SocialButton>
-                <SocialButton href="mailto:govindkumawat.gk@gmail.com">
+                <SocialButton onClick={openMailClient}>
                   <Email />
                 </SocialButton>
               </Box>
@@ -167,8 +168,8 @@ const Footer = () => {
                 Contact Info
               </Typography>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Typography variant="body2" color="text.secondary">
-                  <strong>Email:</strong> govindkumawat.gk@gmail.com
+                <Typography variant="body2" color="text.secondary" onClick={openMailClient} sx={{ cursor: 'pointer' }}>
+                  <strong>Email:</strong> Click to email
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   <strong>Location:</strong> Sydney, NSW, Australia

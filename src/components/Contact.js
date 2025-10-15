@@ -12,6 +12,8 @@ import {
   Send,
   CheckCircle
 } from '@mui/icons-material';
+import { getEmail, getPhone, openMailClient } from '../utils/obfuscation';
+// email sending intentionally simplified to mailto only
 
 const ContactSection = styled(Box)(({ theme }) => ({
   padding: theme.spacing(10, 0),
@@ -79,12 +81,17 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitted(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setIsSubmitted(false), 3000);
-    }, 1000);
+    const to = getEmail();
+    const subject = `[Portfolio] ${formData.subject || 'New message'}`;
+    const bodyLines = [
+      `Name: ${formData.name}`,
+      `Email: ${formData.email}`,
+      '',
+      'Message:',
+      formData.message,
+    ];
+    const mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+    window.location.href = mailto;
   };
 
   return (
@@ -149,8 +156,14 @@ const Contact = () => {
                       <Typography variant="body1" sx={{ fontWeight: 500 }}>
                         Email
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        govindkumawat.gk@gmail.com
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ cursor: 'pointer' }}
+                        onClick={openMailClient}
+                        title="Click to email"
+                      >
+                        {getEmail()}
                       </Typography>
                     </Box>
                   </ContactInfo>
@@ -162,7 +175,7 @@ const Contact = () => {
                         Phone
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        +61 451713263
+                        {getPhone()}
                       </Typography>
                     </Box>
                   </ContactInfo>
@@ -192,13 +205,13 @@ const Contact = () => {
                       Follow Me
                     </Typography>
                     <Box sx={{ display: 'flex', gap: 1 }}>
-                      <SocialButton href="https://github.com/kgovind-maker" target="_blank">
+                      <SocialButton component="a" href="https://github.com/KGovind-maker" target="_blank" rel="noopener noreferrer">
                         <GitHub />
                       </SocialButton>
-                      <SocialButton href="https://linkedin.com/in/govind-kumawat-9b62a1184" target="_blank">
+                      <SocialButton component="a" href="https://www.linkedin.com/in/govind-kumawat-9b62a1184" target="_blank" rel="noopener noreferrer">
                         <LinkedIn />
                       </SocialButton>
-                      <SocialButton href="https://twitter.com/govind_kumawat" target="_blank">
+                      <SocialButton component="a" href="https://twitter.com/govind_kumawat" target="_blank" rel="noopener noreferrer">
                         <Twitter />
                       </SocialButton>
                     </Box>
@@ -332,7 +345,7 @@ const Contact = () => {
                             transition: 'all 0.3s ease',
                           }}
                         >
-                          {isSubmitted ? 'Message Sent!' : 'Send Message'}
+                          {isSubmitted ? 'Sending…' : 'Send Message'}
                         </Button>
                       </Grid>
                     </Grid>

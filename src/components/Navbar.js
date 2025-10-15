@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Button, Box, Typography } from '@mui/material';
+import { AppBar, Toolbar, Button, Box, Typography, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { motion } from 'framer-motion';
 import { Code } from '@mui/icons-material';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleThemeMode } from '../features/ui/uiSlice';
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: 'rgba(10, 25, 47, 0.95)',
@@ -45,6 +49,9 @@ const Logo = styled(Box)(({ theme }) => ({
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const dispatch = useDispatch();
+  const activeSection = useSelector((state) => state.ui.activeSection);
+  const themeMode = useSelector((state) => state.ui.themeMode);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -84,14 +91,31 @@ const Navbar = () => {
               </Typography>
             </Logo>
 
-            {/* Navigation Links */}
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <NavButton href="#home">Home</NavButton>
-              <NavButton href="#about">About</NavButton>
-              <NavButton href="#experience">Experience</NavButton>
-              <NavButton href="#projects">Projects</NavButton>
-              <NavButton href="#skills">Skills</NavButton>
-              <NavButton href="#contact">Contact</NavButton>
+            {/* Navigation Links + Theme Toggle */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              {[
+                { key: 'home', label: 'Home', href: '#home' },
+                { key: 'about', label: 'About', href: '#about' },
+                { key: 'experience', label: 'Experience', href: '#experience' },
+                { key: 'projects', label: 'Projects', href: '#projects' },
+                { key: 'skills', label: 'Skills', href: '#skills' },
+                { key: 'contact', label: 'Contact', href: '#contact' },
+              ].map((link) => (
+                <NavButton
+                  key={link.key}
+                  href={link.href}
+                  variant={activeSection === link.key ? 'outlined' : 'text'}
+                >
+                  {link.label}
+                </NavButton>
+              ))}
+              <IconButton
+                aria-label="toggle theme"
+                color="inherit"
+                onClick={() => dispatch(toggleThemeMode())}
+              >
+                {themeMode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+              </IconButton>
             </Box>
           </Box>
         </motion.div>
