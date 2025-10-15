@@ -3,6 +3,18 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
+## Deployment (GitHub Pages)
+
+- Homepage is set to `https://KGovind-maker.github.io/govind-portfolio` in `package.json`.
+- Auto-deploy runs on every push to `master` via `.github/workflows/deploy.yml`.
+- Structure builds the app from the `portfolio` folder and publishes `portfolio/build` to Pages.
+
+Manual deploy (optional):
+```
+npm run build
+npm run deploy
+```
+
 ## Contact form
 
 The contact form opens your mail client using a `mailto:` link with prefilled subject and body.
